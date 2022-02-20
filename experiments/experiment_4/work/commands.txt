@@ -1,0 +1,39 @@
+# The following commands will prepare data for Figures 5 and 6
+# Each command will train single-layer BNNs of various widths
+# --args specifies the exact arguments to be run
+# --dir_out specifies where the results are stored
+# To run additional random train/test splits as in the paper,
+# adjust the --seed_data argument in the corresponding arguments file 
+
+# To run the real datasets (concrete and slump) you'll also need to download data
+# from the UCI Machine Learning Repository. See `~/data/` for details on each dataset
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/concrete_relu_0.txt \
+--dir_out ../results/concrete_relu_0
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/concrete_tanh_0.txt \
+--dir_out ../results/concrete_tanh_0
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/concrete_slump_0.txt \
+--dir_out ../results/concrete_slump_0
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/sin2_0.txt \
+--dir_out ../results/sin2_0
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/sin100_0.txt \
+--dir_out ../results/sin100_0
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/two_dim_toy100_0.txt \
+--dir_out ../results/two_dim_toy100_0

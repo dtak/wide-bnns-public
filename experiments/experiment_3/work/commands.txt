@@ -1,0 +1,11 @@
+# The following command will prepare data for Figure 2
+# Each command will train single-layer BNNs of various widths
+# --args specifies the exact arguments to be run
+# --dir_out specifies where the results are stored
+# To run additional random parameter inializations as in the paper,
+# adjust the --seed_data argument in the corresponding arguments file 
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/pytorch_1.txt \
+--dir_out ../results/pytorch_1

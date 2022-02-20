@@ -1,0 +1,14 @@
+# The following commands will prepare data for Figures 1 and 4
+# Each command will train single-layer BNNs of various widths with erf activations 
+# --args specifies the exact arguments to be run
+# --dir_out specifies where the results are stored
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/pytorch_1.txt \
+--dir_out ../results/pytorch_1
+
+python ../../../scripts/experimenter.py \
+--subproc ../../../scripts/experiment_pytorch.py \
+--args ../args/pytorch_2.txt \
+--dir_out ../results/pytorch_2

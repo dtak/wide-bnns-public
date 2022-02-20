@@ -1,0 +1,13 @@
+--n_train: 2
+--dataset: sin
+--dim_hidden: [125*2**i for i in range(16)]
+--n_epochs: 20000
+--lr: .001
+--n_samp_elbo: 16
+--init_method: indep-normal-invgamma
+--clip_grad_norm: 500
+--dtype: float32
+--activation: erf
+--noise_sig2: .025
+--seed_init: [0,1,2,3,4,5,6,7,8,9]
+--save:

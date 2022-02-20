@@ -1,0 +1,15 @@
+--dataset: concrete
+--dim_in: 8
+--dim_hidden: [125*2**i for i in range(8)]
+--n_epochs: 10000
+--lr: .001
+--n_samp_elbo: 16
+--init_method: indep-normal-invgamma
+--clip_grad_norm: 500
+--dtype: float32
+--activation: relu
+--noise_sig2: .025
+--seed_data: 0
+--n_restarts: 2
+--batch_size: 100
+--save:
