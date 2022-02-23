@@ -414,6 +414,33 @@ def distance_to_prior(bnn, x, n_samp=1000):
 
     return error_mean, None, mc_error_mean
 
+def distance_to_prior_couple(bnn, x, n_samp=1000, seed=0):
+    #error = lambda z: np.sqrt(np.sum(z**2))
+    max_error = lambda z: np.max(np.abs(z))
+
+    torch.manual_seed(seed)
+    bnn_grid_prior = forward_no_bias_prior(bnn, x, n_samp=n_samp)
+
+    torch.manual_seed(seed)
+    bnn_grid_post = forward_no_bias(bnn, x, n_samp=n_samp)
+    
+    prior_mean = np.mean(bnn_grid_prior, 0)
+    prior_var = np.var(bnn_grid_prior, 0)
+
+    post_mean = np.mean(bnn_grid_post, 0)
+    post_var = np.var(bnn_grid_post, 0)
+
+    error_mean = max_error(post_mean - prior_mean) # Max distance
+    error_var = max_error(post_var - prior_var) # Max distance
+
+    ### MC error
+    var_est = np.sum((bnn_grid_post - post_mean.reshape(1,-1))**2, 0) / (n_samp - 1) # unbiased estimate of variance
+    mc_error_mean = np.max(np.sqrt(var_est / n_samp)) # max over inputs
+    ##
+
+    return error_mean, error_var, mc_error_mean
+
+
 def distance_to_prior_rmse(bnn, x, n_samp=1000):
     #error = lambda z: np.sqrt(np.sum(z**2))
     rmse = lambda z1, z2: np.sqrt(np.mean((z1-z2)**2))
@@ -540,9 +567,9 @@ def prepare_data_mean_convergence(args, n_samp=10000, dir_out='.', fix_seed=Fals
             # compute distance to the prior
             bnn, _ = load_pytorch(args, arg_perm['--dim_hidden'], dir_model, act_name=arg_perm['--activation'])
 
-            if fix_seed:
-                torch.manual_seed(arg_perm['--dim_hidden']) # same seed for each dim_hidden
-            error_mean, error_var, mc_error_mean = distance_to_prior(bnn, x_grid, n_samp=n_samp)
+            #if fix_seed:
+            #    torch.manual_seed(arg_perm['--dim_hidden']) # same seed for each dim_hidden
+            error_mean, error_var, mc_error_mean = distance_to_prior_couple(bnn, x_grid, n_samp=n_samp, seed=arg_perm['--dim_hidden'])
 
             # compute bound based on first network (assumed to be the smallest but it doesn't matter)
             # also compute NNGP error
